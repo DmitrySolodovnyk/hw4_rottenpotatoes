@@ -1,5 +1,7 @@
 class MoviesController < ApplicationController
 
+  class MoviesController::InvalidMovieId < StandardError ; end
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -58,4 +60,14 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def similar
+    movie = Movie.find(params[:id])
+
+    if ( movie.director.nil? || movie.director.empty? )
+        flash[:notice] = "Movie '#{movie.title}' has no director info."
+        redirect_to movies_path
+    else
+        @similar_movies = Movie.find_all_by_director(movie.director)
+    end
+  end
 end
