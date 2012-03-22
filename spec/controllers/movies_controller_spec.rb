@@ -98,20 +98,20 @@ describe MoviesController do
       end
       
       it 'Should redirect to RESTfull if sort order presents in parameters' do
-        get :index  , {:sort=>'title'}
-#        response.should redirect_to(movies_path(:sort=>'title'))
-       response.should redirect_to('/movies?&sort=title')
+        get :index  , {:sort=>'title', :ratings=> {:G=>'1'} }
+        response.should redirect_to(:sort=>'title',:ratings=> {:G=>'1'})
+#       response.should redirect_to('/movies?&sort=title')
       end
 
       it 'Should redirect to RESTfull if rating presents in parameters' do
-        get :index  , {:ratings=> {:G=>'1'} }
+        get :index  , {:ratings=> {:G=>'1'}}
         response.should redirect_to(movies_path(:ratings=> {:G=>'1'}))
       end
       
       it 'Should redirect to RESTfull if sort order presents in session' do
-        get :index  , {}, {:sort=>'release_date'}
-#        response.should redirect_to(movies_path(:sort=>'title'))
-       response.should redirect_to('/movies?&sort=release_date')
+        get :index  , {}, {:sort=>'release_date', :ratings=> {:G=>'1'}}
+        response.should redirect_to(:sort=>'release_date',:ratings=> {:G=>'1'})
+#       response.should redirect_to('/movies?&sort=release_date')
       end
       
       it 'Should retrive movies list from Movie model' do
